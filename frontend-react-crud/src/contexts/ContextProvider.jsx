@@ -3,16 +3,24 @@ import { createContext, useContext, useState } from "react";
 const StateContext = createContext({
     user: null,
     token: null,
+    notification: null,
     setUser: () => {},
-    setToken: () => {}
+    setToken: () => {},
+    setNotification: ()=>{}
 });
 
 export const ContextProvider = ({children}) => { //defaultValue
 
-    const [user, setUser] = useState({
-        name: 'Eduardo Franco'
-    }); //initial state
-    const [token, _setToken] = useState(null/*localStorage.getItem('ACCESS_TOKEN')*/) //initial state {vacio}, la key es 'ACCESS TOKEN'
+    const [user, setUser] = useState({name: 'Elvin Eduardo'}); //initial state
+    const [notification, _setNotification] = useState()
+    const [token, _setToken] = useState({token: 'f56s45fg6s45fs'}/*localStorage.getItem('ACCESS_TOKEN')*/) //initial state {vacio}, la key es 'ACCESS TOKEN'
+
+    const setNotification = (message)=>{
+        _setNotification(message)
+        setTimeout(()=> {
+            _setNotification('');
+        }, 5000)
+    }
 
     const setToken = (token) => {
         _setToken(token)
@@ -28,7 +36,9 @@ export const ContextProvider = ({children}) => { //defaultValue
             user,
             token,
             setUser,
-            setToken
+            setToken,
+            notification,
+            setNotification
         }}>
             {children}
         </StateContext.Provider>
@@ -36,3 +46,5 @@ export const ContextProvider = ({children}) => { //defaultValue
 }
 
 export const useStateContext = () => useContext(StateContext);
+
+//si no tiene default aqui hay que ponerle al import esto: {}
